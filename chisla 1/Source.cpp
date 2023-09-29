@@ -30,10 +30,12 @@ void resizeMatrix(vector<float>& matrix, int newSize) {
 
 vector<float> calculate(vector<vector<float>> matrixA, vector<float> matrixB) {
     int n = matrixA.size();
+    printMatrix(matrixA);
 
     for (int i = 0; i < n; ++i) {
         matrixA[i].push_back(matrixB[i]);
     }
+    printMatrix(matrixA);
 
     for (int i = 0; i < n; ++i) {
         int max_row = i;
@@ -44,15 +46,17 @@ vector<float> calculate(vector<vector<float>> matrixA, vector<float> matrixB) {
         }
 
         swap(matrixA[i], matrixA[max_row]);
+        printMatrix(matrixA);
 
         float pivot = matrixA[i][i];
         if (pivot == 0) {
-            cout << u8"Íåâîçìîæíî ðåøèòü ñèñòåìó (îäèí èç êîýôôèöèåíòîâ ðàâåí 0)";
+            cout << u8"Невозможно решить систему (один из коэффициентов равен 0)";
             return {};
         }
         for (int j = i; j <= n; ++j) {
             matrixA[i][j] /= pivot;
         }
+        printMatrix(matrixA);
 
         for (int j = 0; j < n; ++j) {
             if (j != i) {
@@ -62,6 +66,7 @@ vector<float> calculate(vector<vector<float>> matrixA, vector<float> matrixB) {
                 }
             }
         }
+        printMatrix(matrixA);
     }
 
     vector<float> solution;
