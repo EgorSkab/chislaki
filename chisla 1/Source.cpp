@@ -47,7 +47,7 @@ vector<float> calculate(vector<vector<float>> matrixA, vector<float> matrixB) {
 
         float pivot = matrixA[i][i];
         if (pivot == 0) {
-            cout << u8"Íåâîçìîæíî ðåøèòü ñèñòåìó (îäèí èç êîýôôèöèåíòîâ ðàâåí 0)";
+            cout << u8"ÃÃ¥Ã¢Ã®Ã§Ã¬Ã®Ã¦Ã­Ã® Ã°Ã¥Ã¸Ã¨Ã²Ã¼ Ã±Ã¨Ã±Ã²Ã¥Ã¬Ã³ (Ã®Ã¤Ã¨Ã­ Ã¨Ã§ ÃªÃ®Ã½Ã´Ã´Ã¨Ã¶Ã¨Ã¥Ã­Ã²Ã®Ã¢ Ã°Ã Ã¢Ã¥Ã­ 0)";
             return {};
         }
         for (int j = i; j <= n; ++j) {
@@ -72,7 +72,7 @@ vector<float> calculate(vector<vector<float>> matrixA, vector<float> matrixB) {
     return solution;
 }
 
-void printMatrix(const vector<vector<float>>& matrix) {
+void printMatrix(vector<vector<float>>& matrix) {
     int n = matrix.size();
     int m = matrix[0].size();
 	for (int i = 0; i < n; i++) {
