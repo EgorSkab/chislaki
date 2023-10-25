@@ -21,4 +21,4 @@ void printMatrix(const vector<float>& matrix);
 
 vector<float> calculateNevizku(const vector<vector<float>>& matrixA, const vector<float>& matrixB, const vector<float>& solution);
 
-float maximum(const vector<float>& matrix);
+pair<float, int> maximum(const vector<float>& matrix);
