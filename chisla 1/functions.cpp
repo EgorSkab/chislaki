@@ -50,7 +50,7 @@ vector<float> calculate(vector<vector<float>> matrixA, const vector<float>& matr
 
         float pivot = matrixA[i][i];
         if (pivot == 0) {
-            cout << u8"Íåâîçìîæíî ðåøèòü ñèñòåìó (îäèí èç êîýôôèöèåíòîâ ðàâåí 0)";
+            cout << u8"ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ (Ð¾Ð´Ð¸Ð½ Ð¸Ð· ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚Ð¾Ð² Ñ€Ð°Ð²ÐµÐ½ 0)";
             return {};
         }
         for (int j = i; j <= n; ++j) {
@@ -112,13 +112,18 @@ vector<float> calculateNevizku(const vector<vector<float>>& matrixA, const vecto
     return neviazka;
 }
 
-float maximum(const vector<float>& matrix) {
-    float max;
+pair<float, int> maximum(const vector<float>& matrix) {
+    float max = 0.0f;
     int n = matrix.size();
+    int line;
+    pair<float, int> res;
 
     for (int i = 0; i < n - 1; i++) {
-        if (matrix[i] > matrix[i + 1]) { max = matrix[i]; }
-        else { max = matrix[i + 1]; }
+        if (abs(matrix[i] > matrix[i + 1])) { max = matrix[i]; line = i; }
+        else { max = matrix[i + 1]; line = i + 1; }
     }
-    return max;
+
+    res.first = max;
+    res.second = line;
+    return res;
 }
