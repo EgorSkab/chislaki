@@ -1,4 +1,4 @@
-﻿#include "functions.h"
+#include "functions.h"
 
 int main() {
 	SetConsoleOutputCP(CP_UTF8);
@@ -22,11 +22,12 @@ int main() {
 	cout << u8"Вектор ответов: ";
 	printMatrix(solution);
 
-	printMatrix(matrixA);
-
 	vector<float> neviazka = calculateNevizku(matrixA, matrixB, solution);
 	cout << u8"Вектор невязки: ";
 	printMatrix(neviazka);
 
-	cout << u8"Норма: " << maximum(neviazka) << endl;
+	pair<float, int> fault = maximum(neviazka);
+
+	cout << u8"Норма: " << fault.first << endl;
+	cout << u8"Относительная погрешность: " << fault.first / solution[fault.second] << endl;
 }
