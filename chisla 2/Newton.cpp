@@ -1,0 +1,116 @@
+#include "Newton.h"
+
+// Функции, для которых мы решаем систему уравнений
+double f1(vector<double> X) {
+    return 2 * pow(X[0], 2) - X[0] * X[1] - 5 * X[0] + 1.0;
+}
+double f2(vector<double> X) {
+    return X[0] + 3 * log10(X[0]) - pow(X[1], 2);
+}
+
+// Частные производные для исходных функций
+double df1_dx1(vector<double> X) {
+    return 4.0 * X[0] - X[1] - 5.0;
+}
+double df2_dx1(vector<double> X) {
+    return 1.0 + 3.0 / (X[0] * log(10));
+}
+double df1_dx2(vector<double> X) {
+    return -X[0];
+}
+double df2_dx2(vector<double> X) {
+    return -2.0 * X[1];
+}
+
+vector<vector<double>> jacobian(vector<double> X) {
+    vector<vector<double>> J(2, vector<double>(2));
+    J[0][0] = df1_dx1(X);
+    J[0][1] = df1_dx2(X);
+    J[1][0] = df2_dx1(X);
+    J[1][1] = df2_dx2(X);
+    return J;
+}
+vector<vector<double>> jacobian(vector<double> X, const double& M) {
+    vector<vector<double>> J(2, vector<double>(2));
+    double F1 = f1(X);
+    double F2 = f2(X);
+
+    vector<double> dx(X);
+
+    for (int i = 0; i < X.size(); i++) {
+        dx[i] *= M;
+    }
+
+    J[0][0] = (f1({ X[0] + dx[0], X[1] }) - F1) / dx[0];
+    J[0][1] = (f1({ X[0], X[1] + dx[1] }) - F1) / dx[1];
+    J[1][0] = (f2({ X[0] + dx[0], X[1] }) - F2) / dx[0];
+    J[1][1] = (f2({ X[0], X[1] + dx[1] }) - F2) / dx[1];
+
+    return J;
+}
+
+vector<double> calculateNewton(vector<double> currentSolution, const double& epsilon1, const double& epsilon2, const int& maxIterations, const double& M, const bool& print, const int& statsEvery) {
+    if (print) {
+        cout << "-------------------------------------------------\n";
+        cout << "Начальное приближение: " << currentSolution[0] << " , " << currentSolution[1] << endl << "Используется ";
+    }
+    if (M == 0.0) { cout << "1 метод вычисления якобиана.\n\n"; }
+    else { cout << "2 метод вычисления якобиана. M = " << M << "\n\n"; }
+    for (int i = 0; i < maxIterations; i++) {
+        double F1 = f1(currentSolution);
+        double F2 = f2(currentSolution);
+        vector<double> F = { -F1, -F2 };
+        vector<double> delta_x(2);
+        vector<double> storage(2);
+        vector<vector<double>> J(2, vector<double>(2));
+
+        //вычисление матрицы Якоби
+        switch (int(M * 1000)) {
+        case 0:
+            J = jacobian(currentSolution);
+            break;
+        default:
+            J = jacobian(currentSolution, M);
+            break;
+        }
+
+        //вычисление невязки
+        delta_x = calculate(J, F);
+
+        // Уточнение решения
+        storage = currentSolution;
+        storage[0] += delta_x[0];
+        storage[1] += delta_x[1];
+
+        //вычисление погрешности
+        double delta1 = maximum({ abs(F1), abs(F2) }).first;
+        double delta2 = maximum({ abs(delta_x[0]), abs(delta_x[1]) }).first;
+
+        //вывод промежуточного значения
+        if (print) {
+            if (!(i % statsEvery)) {
+                cout << "Итерация " << i + 1 << ":\n";
+                cout << " delta1 = " << delta1 << "\n";
+                cout << " delta2 = " << delta2 << "\n";
+                cout << "     x1 = " << currentSolution[0] << "\n";
+                cout << "     x2 = " << currentSolution[1] << "\n";
+            }
+        }
+
+        currentSolution = storage;
+        // Проверка критерия завершения итерации
+        if (delta1 <= epsilon1 && delta2 <= epsilon2) {
+            if (print) {
+                cout << endl << "Решение найдено после " << i + 1 << " итераций." << endl;
+                if (i % statsEvery) {
+                    cout << " delta1 = " << delta1 << "\n";
+                    cout << " delta2 = " << delta2 << "\n";
+                }
+                cout << "     x1 = " << storage[0] << endl;
+                cout << "     x2 = " << storage[1] << "\n\n\n";
+                break;
+            }
+        }
+    }
+    return currentSolution;
+}
