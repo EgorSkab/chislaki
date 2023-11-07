@@ -115,7 +115,7 @@ vector<float> calculateNevizku(const vector<vector<float>>& matrixA, const vecto
 pair<float, int> maximum(const vector<float>& matrix) {
     float max = 0.0f;
     int n = matrix.size();
-    int line;
+    int line = 0;
     pair<float, int> res;
 
     for (int i = 0; i < n; i++) {
@@ -129,7 +129,14 @@ pair<float, int> maximum(const vector<float>& matrix) {
 
 double relative_fault(vector<vector<float>> matrixA, const vector<float>& solution) {
     int n = matrixA.size();
-    vector<float> new_solution = calculate(matrixA, calculate(matrixA, { 0, 0, 0 }));
+    vector<float> matrixB(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrixB[i] += matrixA[i][j] * solution[j];
+        }
+    }
+
+    vector<float> new_solution = calculate(matrixA, matrixB);
 
     vector<float> delta;
     for (int i = 0; i < n; i++) {
