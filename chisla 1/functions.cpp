@@ -118,12 +118,23 @@ pair<float, int> maximum(const vector<float>& matrix) {
     int line;
     pair<float, int> res;
 
-    for (int i = 0; i < n - 1; i++) {
-        if (abs(matrix[i] > matrix[i + 1])) { max = matrix[i]; line = i; }
-        else { max = matrix[i + 1]; line = i + 1; }
+    for (int i = 0; i < n; i++) {
+        if (abs(max < matrix[i])) { max = matrix[i]; line = i; }
     }
 
     res.first = max;
     res.second = line;
     return res;
+}
+
+double relative_fault(vector<vector<float>> matrixA, const vector<float>& solution) {
+    int n = matrixA.size();
+    vector<float> new_solution = calculate(matrixA, calculate(matrixA, { 0, 0, 0 }));
+
+    vector<float> delta;
+    for (int i = 0; i < n; i++) {
+        delta.push_back(abs(new_solution[i] - solution[i]));
+    }
+
+    return maximum(delta).first / maximum(solution).first;
 }
