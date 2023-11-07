@@ -29,5 +29,5 @@ int main() {
 	pair<float, int> fault = maximum(neviazka);
 
 	cout << u8"Норма: " << fault.first << endl;
-	cout << u8"Относительная погрешность: " << fault.first / solution[fault.second] << endl;
+	cout << u8"Относительная погрешность: " << relative_fault(matrixA, solution) << endl;
 }
