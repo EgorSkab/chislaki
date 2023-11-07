@@ -22,3 +22,5 @@ void printMatrix(const vector<float>& matrix);
 vector<float> calculateNevizku(const vector<vector<float>>& matrixA, const vector<float>& matrixB, const vector<float>& solution);
 
 pair<float, int> maximum(const vector<float>& matrix);
+
+double relative_fault(vector<vector<float>> matrixA, const vector<float>& solution);
