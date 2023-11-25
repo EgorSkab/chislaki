@@ -66,7 +66,7 @@ vector<double> calculateNewton(vector<double> currentSolution, const double& eps
     vector<double> prev_solution(solution);
     vector<vector<double>> J(2, vector<double>(2));
 
-    while (iteration != maxIterations) {
+    while (iteration < maxIterations) {
         F1 = f1(solution);
         F2 = f2(solution);
         F = { -F1, -F2 };
@@ -87,7 +87,14 @@ vector<double> calculateNewton(vector<double> currentSolution, const double& eps
         double delta1 = maximum({ abs(F1), abs(F2) }).first;
         double delta2;
         if (maximum(prev_solution).first < 1) { delta2 = abs(maximum(delta_x).first); }
-        else { delta2 = abs(maximum(delta_x).first) ; }
+        else { 
+            int size = delta_x.size();
+            vector<double> val(size);
+            for (int i = 0; i < size; ++i) {
+                val[i] = delta_x[i] / solution[i];
+            }
+            delta2 = abs(maximum(val).first) ; 
+        }
 
         //вывод промежуточного значения
         if (print) {
