@@ -50,7 +50,7 @@ vector<float> calculate(vector<vector<float>> matrixA, const vector<float>& matr
 
         float pivot = matrixA[i][i];
         if (pivot == 0) {
-            cout << u8"ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ (Ð¾Ð´Ð¸Ð½ Ð¸Ð· ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚Ð¾Ð² Ñ€Ð°Ð²ÐµÐ½ 0)";
+            cout << u8"Íåâîçìîæíî ðåøèòü ñèñòåìó (îäèí èç êîýôôèöèåíòîâ ðàâåí 0)";
             return {};
         }
         for (int j = i; j <= n; ++j) {
@@ -119,7 +119,7 @@ pair<float, int> maximum(const vector<float>& matrix) {
     pair<float, int> res;
 
     for (int i = 0; i < n; i++) {
-        if (abs(max < matrix[i])) { max = matrix[i]; line = i; }
+        if (max < abs(matrix[i])) { max = matrix[i]; line = i; }
     }
 
     res.first = max;
