@@ -50,8 +50,7 @@ int main() {
 	string command = "python plot.py ";
 	for (int i = 0; i < A.size(); ++i) {
 		to_string(A[i])[to_string(A[i]).find('.')] = ',';
-		command += to_string(A[i]);
-		command += ' ';
+		command += to_string(A[i]) + ' ';
 	}
 
 	const char* str = command.c_str();
