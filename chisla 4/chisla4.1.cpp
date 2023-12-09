@@ -1,11 +1,7 @@
 ﻿#include "Functions.h"
 #include "Gauss.h"
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <utility>
 #include <string>
-#include "chisla4.1.h"
 using namespace std;
 
 int main() {
