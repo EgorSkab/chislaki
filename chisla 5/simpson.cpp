@@ -31,8 +31,10 @@ double calculate_simpson(double(&function)(const double&), const double& A, cons
 	return intg2;
 }
 
-double simpson_method(double(&function)(const double&, const double&), const double& A, const double& B, const double& C, const double& D, const unsigned long& n) {
-	unsigned long m = n / 2;
+double simpson_method(double(&function)(const double&, const double&), const double& A, const double& B, const double& C, const double& D) {
+	unsigned long n, m;
+	cout << "Input N and M values (must be even): ";
+	cin >> n >> m;
 	double hx = (B - A) / (2 * n);
 	double hy = (D - C) / (2 * m);
 
@@ -55,15 +57,5 @@ double simpson_method(double(&function)(const double&, const double&), const dou
 }
 
 double calculate_simpson(double(&function)(const double&, const double&), const double& A, const double& B, const double& C, const double& D, const double& epsilon) {
-	long n = 10;
-	double intg1 = 0;
-	double intg2 = simpson_method(function, A, B, C, D, n);
-
-	while (abs(intg1 - intg2) > 15 * epsilon) {
-		n *= 2;
-		intg1 = intg2;
-		intg2 = simpson_method(function, A, B, C, D, n);
-	}
-
-	return intg2;
+	return simpson_method(function, A, B, C, D);
 }
