@@ -1,6 +1,6 @@
 #include "Newton.h"
 
-// Функции, для которых мы решаем систему уравнений
+// Р¤СѓРЅРєС†РёРё, РґР»СЏ РєРѕС‚РѕСЂС‹С… РјС‹ СЂРµС€Р°РµРј СЃРёСЃС‚РµРјСѓ СѓСЂР°РІРЅРµРЅРёР№
 double f1(vector<double> X) {
     return 2 * pow(X[0], 2) - X[0] * X[1] - 5 * X[0] + 1.0;
 }
@@ -8,7 +8,7 @@ double f2(vector<double> X) {
     return X[0] + 3 * log10(X[0]) - pow(X[1], 2);
 }
 
-// Частные производные для исходных функций
+// Р§Р°СЃС‚РЅС‹Рµ РїСЂРѕРёР·РІРѕРґРЅС‹Рµ РґР»СЏ РёСЃС…РѕРґРЅС‹С… С„СѓРЅРєС†РёР№
 double df1_dx1(vector<double> X) {
     return 4.0 * X[0] - X[1] - 5.0;
 }
@@ -52,10 +52,10 @@ vector<vector<double>> jacobian(vector<double> X, const double& M) {
 vector<double> calculateNewton(vector<double> currentSolution, const double& epsilon1, const double& epsilon2, const int& maxIterations, const double& M, const bool& print, const int& statsEvery) {
     if (print) {
         cout << "-------------------------------------------------\n";
-        cout << "Начальное приближение: " << currentSolution[0] << " , " << currentSolution[1] << endl << "Используется ";
+        cout << "ГЌГ Г·Г Г«ГјГ­Г®ГҐ ГЇГ°ГЁГЎГ«ГЁГ¦ГҐГ­ГЁГҐ: " << currentSolution[0] << " , " << currentSolution[1] << endl << "Г€Г±ГЇГ®Г«ГјГ§ГіГҐГІГ±Гї ";
     }
-    if (M == 0.0) { cout << "1 метод вычисления якобиана.\n\n"; }
-    else { cout << "2 метод вычисления якобиана. M = " << M << "\n\n"; }
+    if (M == 0.0) { cout << "1 Г¬ГҐГІГ®Г¤ ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї ГїГЄГ®ГЎГЁГ Г­Г .\n\n"; }
+    else { cout << "2 Г¬ГҐГІГ®Г¤ ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї ГїГЄГ®ГЎГЁГ Г­Г . M = " << M << "\n\n"; }
 
     int iteration = 0;
     vector<double> solution(currentSolution);
@@ -72,18 +72,18 @@ vector<double> calculateNewton(vector<double> currentSolution, const double& eps
         F = { -F1, -F2 };
         prev_solution = solution;
         
-        //вычисление матрицы Якоби
+        //РІС‹С‡РёСЃР»РµРЅРёРµ РјР°С‚СЂРёС†С‹ РЇРєРѕР±Рё
         if (M == 0.0) { J = jacobian(solution); }
         else { J = jacobian(solution, M); }
 
-        //вычисление невязки
+        //РІС‹С‡РёСЃР»РµРЅРёРµ РЅРµРІСЏР·РєРё
         delta_x = calculate(J, F);
 
-        // Уточнение решения
+        // РЈС‚РѕС‡РЅРµРЅРёРµ СЂРµС€РµРЅРёСЏ
         solution[0] += delta_x[0];
         solution[1] += delta_x[1];
 
-        //вычисление погрешности
+        //РІС‹С‡РёСЃР»РµРЅРёРµ РїРѕРіСЂРµС€РЅРѕСЃС‚Рё
         double delta1 = maximum({ abs(F1), abs(F2) }).first;
         double delta2;
         if (maximum(prev_solution).first < 1) { delta2 = abs(maximum(delta_x).first); }
@@ -96,10 +96,10 @@ vector<double> calculateNewton(vector<double> currentSolution, const double& eps
             delta2 = abs(maximum(val).first) ; 
         }
 
-        //вывод промежуточного значения
+        //РІС‹РІРѕРґ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
         if (print) {
             if (!(iteration % statsEvery)) {
-                cout << "Итерация " << iteration + 1 << ":\n";
+                cout << "Г€ГІГҐГ°Г Г¶ГЁГї " << iteration + 1 << ":\n";
                 cout << " delta1 = " << delta1 << "\n";
                 cout << " delta2 = " << delta2 << "\n";
                 cout << "     x1 = " << solution[0] << "\n";
@@ -107,10 +107,10 @@ vector<double> calculateNewton(vector<double> currentSolution, const double& eps
             }
         }
 
-        // Проверка критерия завершения итерации
+        // РџСЂРѕРІРµСЂРєР° РєСЂРёС‚РµСЂРёСЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РёС‚РµСЂР°С†РёРё
         if (delta1 <= epsilon1 && delta2 <= epsilon2) {
             if (print) {
-                cout << endl << "Решение найдено после " << iteration + 1 << " итераций." << endl;
+                cout << endl << "ГђГҐГёГҐГ­ГЁГҐ Г­Г Г©Г¤ГҐГ­Г® ГЇГ®Г±Г«ГҐ " << iteration + 1 << " ГЁГІГҐГ°Г Г¶ГЁГ©." << endl;
                 if (iteration % statsEvery) {
                     cout << " delta1 = " << delta1 << "\n";
                     cout << " delta2 = " << delta2 << "\n";
